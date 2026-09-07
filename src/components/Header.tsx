@@ -1,7 +1,10 @@
-import { Link } from "react-router-dom";
-import { ExternalLink } from "lucide-react";
+import { Link, useLocation } from "react-router-dom";
+import { ExternalLink, ChevronDown } from "lucide-react";
 
 export default function Header() {
+  const location = useLocation();
+  const isAdminArea = location.pathname.startsWith("/admin");
+
   return (
     <header
       id="site-header"
@@ -24,17 +27,24 @@ export default function Header() {
           </span>
         </Link>
 
-        {/* External Link - Hidden on small screens (<640px), visible on sm+ */}
-        <a
-          href="https://sliitmozilla.org"
-          target="_blank"
-          rel="noopener noreferrer"
-          id="header-club-link"
-          className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 text-xs sm:text-sm font-semibold text-moz-gray-mid border border-moz-gray-light rounded-full transition hover:text-moz-orange hover:border-moz-orange shrink-0"
-        >
-          <span>sliitmozilla.org</span>
-          <ExternalLink className="w-3.5 h-3.5" />
-        </a>
+        {/* Right side: Admin Dropdown or External Link */}
+        {isAdminArea ? (
+          <div className="flex items-center justify-between w-[130px] px-3 py-1.5 text-sm font-medium text-[var(--color-moz-orange)] bg-white border border-[var(--color-moz-orange)] rounded-md cursor-pointer hover:bg-gray-50 transition-colors">
+            <span>Admin</span>
+            <ChevronDown className="w-4 h-4" />
+          </div>
+        ) : (
+          <a
+            href="https://sliitmozilla.org"
+            target="_blank"
+            rel="noopener noreferrer"
+            id="header-club-link"
+            className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 text-xs sm:text-sm font-semibold text-moz-gray-mid border border-moz-gray-light rounded-full transition hover:text-moz-orange hover:border-moz-orange shrink-0"
+          >
+            <span>sliitmozilla.org</span>
+            <ExternalLink className="w-3.5 h-3.5" />
+          </a>
+        )}
       </div>
     </header>
   );
