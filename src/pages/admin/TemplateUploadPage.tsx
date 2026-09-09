@@ -1,5 +1,7 @@
+"use client";
+
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useRouter } from "next/navigation";
 import {
   AlertCircle,
   CheckCircle2,
@@ -9,7 +11,7 @@ import {
 } from "lucide-react";
 
 function TemplateUploadPage() {
-  const navigate = useNavigate();
+  const router = useRouter();
 
   const [file, setFile] = useState<File | null>(null);
   const [fontSize, setFontSize] = useState("");
@@ -113,8 +115,9 @@ function TemplateUploadPage() {
 
     try {
       setSubmitting(true);
+      const backendApi = process.env.NEXT_PUBLIC_BACKEND_API || "";
       const response = await fetch(
-        `${import.meta.env.VITE_PUBLIC_BACKEND_API}/admin/add/template`,
+        `${backendApi}/admin/add/template`,
         { method: "POST", body: formData },
       );
 
@@ -370,7 +373,7 @@ function TemplateUploadPage() {
         <div className="flex flex-col-reverse sm:flex-row items-center justify-center sm:justify-end gap-4 pt-4">
           <button
             type="button"
-            onClick={() => navigate("/admin/certificates/new")}
+            onClick={() => router.push("/admin/certificates/new")}
             className="w-full sm:w-auto font-bold text-moz-black text-sm font-sans bg-transparent border-none py-2.5 px-6 cursor-pointer hover:bg-gray-50 rounded-lg transition-colors"
           >
             Cancel
